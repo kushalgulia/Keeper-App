@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function CreateArea(props) {
   const [newNote, setNewNote] = useState({
     title: "",
-    content: ""
+    content: "",
   });
 
   function handleChange(event) {
@@ -11,7 +11,7 @@ function CreateArea(props) {
     setNewNote((prevValue) => {
       return {
         ...prevValue,
-        [name]: value
+        [name]: value,
       };
     });
   }
@@ -21,21 +21,30 @@ function CreateArea(props) {
     setNewNote({ title: "", content: "" });
     event.preventDefault();
   }
+
+  const [isClicked, setClicked] = useState(false);
+  function handleClick() {
+    setClicked(true);
+  }
   return (
     <div>
       <form>
-        <input
-          name="title"
-          onChange={handleChange}
-          value={newNote.title}
-          placeholder="Title"
-        />
+        {isClicked && (
+          <input
+            name="title"
+            onChange={handleChange}
+            value={newNote.title}
+            placeholder="Title"
+          />
+        )}
+
         <textarea
           name="content"
           onChange={handleChange}
+          onClick={handleClick}
           value={newNote.content}
           placeholder="Take a note..."
-          rows="3"
+          rows={isClicked ? 3 : 1}
         />
         <button onClick={submitNote}>Add</button>
       </form>
